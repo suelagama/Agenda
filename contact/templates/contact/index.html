@@ -19,7 +19,7 @@
         </thead>
 
         <tbody>
-            {% for contact in contacts %}
+            {% for contact in page_obj %}
                 <tr class="table-row">
                     <td class="table-cel"><a href="{% url "contact:contact" contact.id %}">{{ contact.id }}</a></td>
                     <td class="table-cel">{{ contact.first_name }}</td>
@@ -27,9 +27,11 @@
                     <td class="table-cel">{{ contact.phone }}</td>
                     <td class="table-cel">{{ contact.email }}</td>
                 </tr>
+            {% empty %}
+                <td colspan="5">{{ request.GET.q.strip }}<strong style="color: red;">No record found</strong></td>
             {% endfor %}
         </tbody>
-
+ 
     </table>
 
 </div>

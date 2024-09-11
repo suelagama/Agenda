@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from contact.models import Contact, Category
+from contact.models import Category, Contact
 
 
 @admin.register(Contact)
