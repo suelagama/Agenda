@@ -21,7 +21,9 @@ def create(request):
         }
 
         if forms.is_valid():
-            contact = forms.save()
+            contact = forms.save(commit=False)
+            contact.owner = request.user
+            contact.save()
             messages.success(request, 'Contact registered successfully!')
             return redirect(LINK_REVERSE_UPDATE, contact_id=contact.pk)
 
@@ -36,7 +38,8 @@ def create(request):
 
 
 def update(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(
+        Contact, pk=contact_id, show=True, owner=request.user)
     form_action = reverse(LINK_REVERSE_UPDATE, args=(contact_id,))
 
     if request.method == 'POST':
@@ -63,7 +66,8 @@ def update(request, contact_id):
 
 
 def delete(request, contact_id):
-    contact = get_object_or_404(Contact, pk=contact_id, show=True)
+    contact = get_object_or_404(
+        Contact, pk=contact_id, show=True, owner=request.user)
 
     confirmation = request.POST.get('confirmation', 'no')
 
